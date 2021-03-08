@@ -1,37 +1,25 @@
-## Welcome to GitHub Pages
+# Unsupervised Clustering with Gaussian Mixture Modeling
 
-You can use the [editor on GitHub](https://github.com/jonzia/Clustering/edit/main/README.md) to maintain and preview the content for your website in Markdown files.
+## Summary
+This repository contains code for performing Gaussian mixture modeling (GMM) to separate two-dimensional datasets into classes by modeling the data as samples from two or more Gaussian distributions.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## How to Use
+A full description of function inputs/outputs can be viewed by using `help smart.cluster.gaussian` in the MATLAB command line. Generally, the function's inputs are the unlabeled data and model hyperparameters, and the output is a struct containing class labels for each input datapoint and the final model parameters contained in a struct. This output can be used to seed the model on subsequent function calls. The following is an example function call:
 
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+```matlab
+new_model = smart.cluster.gaussian(data, true, 'startModel', old_model, 'numClusters', 3, 'iterations', 100);
+labeled_data = new_model.indices; old_model = new_model.model;
 ```
+Note that the `+cluster` package is contained within the `+smart` package for compatibility with other repositories, since they may contain other subpackages of the larger `+smart` package which rely on `+cluster` package functions. These other subpackages may be pasted in the `+smart` folder to add their respective functionality, though they will generally already contain all dependencies when cloned.
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+### Data Formatting
+Data should be provided in a Mx2 matrix with M observations of two-dimensional data.
 
-### Jekyll Themes
+### Member Functions
+| Function | Purpose |
+| --- | --- |
+| `evaluate()` | Compute the silhouette score for clustered data |
+| `gaussian()` | Perform Gaussian mixture modeling |
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/jonzia/Clustering/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+## References
+This code was used in the [linked manuscript](https://www.researchgate.net/publication/335795238_Automated_Identification_of_Persistent_Time-Domain_Features_in_Seismocardiogram_Signals), which contains a more detailed explanation of Gaussian mixture modeling.
